@@ -13,7 +13,7 @@
         <Version Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</Version>
         <AssemblyName>Soenneker.Serilog.Sinks.Browser.Blazor</AssemblyName>
         <PackageId>Soenneker.Serilog.Sinks.Browser.Blazor</PackageId>
-        <PackageTags>serilog sinks browser blazor console sink wasm webassembly logging logs log serilogblazorsink util csharp dotnet c# .net</PackageTags>
+        <PackageTags>serilog sinks browser blazor console sink wasm webassembly logging logs log blazorconsolesink util csharp dotnet c# .net</PackageTags>
         <Copyright>Copyright © 2025 Jake Soenneker</Copyright>
         <Authors>Jake Soenneker</Authors>
         <Company>https://soenneker.com</Company>
