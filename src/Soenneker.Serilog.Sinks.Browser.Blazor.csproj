@@ -42,7 +42,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.2" />
+        <PackageReference Include="Microsoft.JSInterop" Version="9.0.2" />
         <PackageReference Include="Serilog" Version="4.2.0" />
         <PackageReference Include="Soenneker.Extensions.String" Version="3.0.440" />
         <PackageReference Include="Soenneker.Extensions.ValueTask" Version="3.0.78" />
