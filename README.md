@@ -80,7 +80,7 @@ public class Program
 
     private static WebAssemblyHost AddBlazorConsoleLogger(WebAssemblyHost host)
     {
-        var jsRuntime = (IJSRuntime)host.Services.GetService(typeof(IJSRuntime))!;
+        var jsRuntime = host.Services.GetRequiredService<IJSRuntime>();
 
         var loggerConfig = new LoggerConfiguration();
 
