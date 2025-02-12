@@ -50,7 +50,7 @@ public class Program
 
             WebAssemblyHost host = builder.Build();
 
-            SetGlobalLogger(host);
+            AddBlazorConsoleLogger(host);
 
             await host.RunAsync();
         }
@@ -65,7 +65,7 @@ public class Program
         }
     }
 
-    private static void ConfigureLogging(IServiceCollection services)
+    private static IServiceCollection ConfigureLogging(IServiceCollection services)
     {
         SelfLog.Enable(m => Console.Error.WriteLine(m));
 
@@ -74,9 +74,11 @@ public class Program
             builder.ClearProviders();
             builder.AddSerilog(dispose: true);
         });
+
+        return services;
     }
 
-    private static void SetGlobalLogger(WebAssemblyHost host)
+    private static WebAssemblyHost AddBlazorConsoleLogger(WebAssemblyHost host)
     {
         var jsRuntime = (IJSRuntime)host.Services.GetService(typeof(IJSRuntime))!;
 
@@ -85,6 +87,8 @@ public class Program
         loggerConfig.WriteTo.BlazorConsole(jsRuntime: jsRuntime);
 
         Log.Logger = loggerConfig.CreateLogger();
+
+        return host;
     }
 }
 ```

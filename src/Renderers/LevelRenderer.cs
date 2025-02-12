@@ -16,7 +16,7 @@ internal sealed class LevelRenderer : BaseRenderer
 
     internal override void Render(LogEvent logEvent, TokenEmitter emitToken)
     {
-        string prefix = logEvent.Level.ToLevelPrefix(_levelToken.Format);
+        string prefix = logEvent.Level.ToLevelPrefix();
         string alignedOutput = prefix.Pad(_levelToken.Alignment);
         emitToken(alignedOutput);
     }
