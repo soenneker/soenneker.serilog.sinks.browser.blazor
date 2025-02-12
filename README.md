@@ -5,6 +5,8 @@
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Serilog.Sinks.Browser.Blazor
 ### A Serilog sink for logging within the Blazor client-side environment
 
+![image](https://github.com/user-attachments/assets/6a13773e-d2f4-4d72-9a09-f075c44eb4e7)
+
 An example demo app has been added to the solution.
 
 ## 🛠 Installation
