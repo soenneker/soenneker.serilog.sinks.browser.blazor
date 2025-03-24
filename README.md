@@ -13,10 +13,9 @@ An example demo app has been added to the solution.
 
 1. **Install Required NuGet Packages**
 
-   ```sh
-   dotnet add package Serilog.Extensions.Logging
-   dotnet add package Soenneker.Serilog.Sinks.Browser.Blazor
-   ```
+```sh
+dotnet add package Soenneker.Serilog.Sinks.Browser.Blazor
+```
 
 2. **Configure Logging in `Program.cs`**
 
