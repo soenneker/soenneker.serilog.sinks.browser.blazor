@@ -12,7 +12,7 @@ namespace Soenneker.Serilog.Sinks.Browser.Blazor;
 /// <summary>
 /// A Serilog sink for logging within the Blazor client-side environment
 /// </summary>
-internal class BlazorConsoleSink : ILogEventSink
+internal sealed class BlazorConsoleSink : ILogEventSink
 {
     private readonly IJSRuntime _jSRuntime;
     private readonly OutputFormatter _formatter;
