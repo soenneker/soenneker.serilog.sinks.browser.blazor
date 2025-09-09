@@ -42,7 +42,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.JSInterop" Version="9.0.8" />
+        <PackageReference Include="Microsoft.JSInterop" Version="9.0.9" />
         <PackageReference Include="Serilog" Version="4.3.0" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.2" />
         <PackageReference Include="Soenneker.Extensions.String" Version="3.0.555" />
