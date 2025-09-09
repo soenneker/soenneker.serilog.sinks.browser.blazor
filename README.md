@@ -71,7 +71,7 @@ public class Program
         services.AddLogging(builder =>
         {
             builder.ClearProviders();
-            builder.AddSerilog(dispose: true);
+            builder.AddSerilog(dispose: false);
         });
 
         return services;
