@@ -4,6 +4,8 @@ using Serilog.Events;
 using Serilog.Parsing;
 using Soenneker.Serilog.Sinks.Browser.Blazor.Extensions;
 using Soenneker.Serilog.Sinks.Browser.Blazor.Renderers.Base;
+using Soenneker.Utils.ReusableStringWriter;
+using Soenneker.Serilog.Sinks.Browser.Blazor.Internal;
 
 namespace Soenneker.Serilog.Sinks.Browser.Blazor.Renderers;
 
@@ -37,9 +39,9 @@ internal sealed class EventRenderer : BaseRenderer
         }
         else
         {
-            using var writer = new StringWriter();
+            ReusableStringWriter writer = ReusableStringWriterCache.Get();
             propertyValue.Render(writer, _token.Format, _formatProvider);
-            result = writer.ToString();
+            result = writer.Finish();
         }
 
         // Apply alignment efficiently
