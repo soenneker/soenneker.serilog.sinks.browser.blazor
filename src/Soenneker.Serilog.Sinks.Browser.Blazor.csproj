@@ -45,6 +45,6 @@
         <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.2" />
         <PackageReference Include="Soenneker.Extensions.String" Version="4.0.565" />
         <PackageReference Include="Soenneker.Extensions.ValueTask" Version="4.0.96" />
-        <PackageReference Include="Soenneker.Utils.ReusableStringWriter" Version="4.0.6" />
+        <PackageReference Include="Soenneker.Utils.ReusableStringWriter" Version="4.0.7" />
     </ItemGroup>
 </Project>
