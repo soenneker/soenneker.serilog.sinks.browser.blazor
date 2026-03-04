@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/.github/">
+    <File Path=".github/renovate.json" />
+  </Folder>
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/build-and-test.yml" />
+    <File Path=".github/workflows/publish-package.yml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Soenneker.Serilog.Sinks.Browser.Blazor.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Soenneker.Serilog.Sinks.Browser.Blazor.Demo/Soenneker.Serilog.Sinks.Browser.Blazor.Demo.csproj" />
+    <Project Path="test/Soenneker.Serilog.Sinks.Browser.Blazor.Tests/Soenneker.Serilog.Sinks.Browser.Blazor.Tests.csproj" />
+  </Folder>
+</Solution>
