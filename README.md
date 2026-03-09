@@ -1,6 +1,7 @@
-﻿[![](https://img.shields.io/nuget/v/soenneker.serilog.sinks.browser.blazor.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.serilog.sinks.browser.blazor/)
+[![](https://img.shields.io/nuget/v/soenneker.serilog.sinks.browser.blazor.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.serilog.sinks.browser.blazor/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.serilog.sinks.browser.blazor/publish-package.yml?style=for-the-badge)](https://github.com/soenneker/soenneker.serilog.sinks.browser.blazor/actions/workflows/publish-package.yml)
 [![](https://img.shields.io/nuget/dt/soenneker.serilog.sinks.browser.blazor.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.serilog.sinks.browser.blazor/)
+[![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.serilog.sinks.browser.blazor/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.serilog.sinks.browser.blazor/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Serilog.Sinks.Browser.Blazor
 ### A Serilog sink for logging within the Blazor client-side environment
@@ -9,7 +10,7 @@
 
 An example demo app has been added to the solution.
 
-## 🛠 Installation
+## ?? Installation
 
 1. **Install Required NuGet Packages**
 
@@ -101,7 +102,7 @@ public class Program
 
 ---
 
-## 🛠 Usage
+## ?? Usage
 
 Once you have installed and configured Serilog with the **BlazorConsole sink**, you can start logging messages in your Blazor components.
 
