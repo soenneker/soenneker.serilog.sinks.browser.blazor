@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Soenneker.Serilog.Sinks.Browser.Blazor.csproj" />
+        <ProjectReference Include="..\..\src\Soenneker.Serilog.Sinks.Browser.Blazor\Soenneker.Serilog.Sinks.Browser.Blazor.csproj" />
     </ItemGroup>
 
     <ItemGroup>
