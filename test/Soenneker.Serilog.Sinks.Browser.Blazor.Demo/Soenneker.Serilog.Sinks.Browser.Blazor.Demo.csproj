@@ -1,19 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?><Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <Platforms>AnyCPU</Platforms>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
 
-  <PropertyGroup>
-      <TargetFramework>net10.0</TargetFramework>
-      <Nullable>enable</Nullable>
-      <Platforms>AnyCPU</Platforms>
-      <NoWarn>$(NoWarn);1591</NoWarn>
-  <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild></PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.6" PrivateAssets="all" />
+    </ItemGroup>
 
-  <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.7" />
-      <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.6" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Soenneker.Serilog.Sinks.Browser.Blazor\Soenneker.Serilog.Sinks.Browser.Blazor.csproj" />
-  </ItemGroup>
-
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Soenneker.Serilog.Sinks.Browser.Blazor\Soenneker.Serilog.Sinks.Browser.Blazor.csproj" />
+    </ItemGroup>
 </Project>

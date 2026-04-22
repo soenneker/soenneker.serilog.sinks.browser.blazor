@@ -1,17 +1,16 @@
-﻿using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.Serilog.Sinks.Browser.Blazor.Tests;
 
-[Collection("Collection")]
-public class SerilogBlazorSinkTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class SerilogBlazorSinkTests : HostedUnitTest
 {
 
-    public SerilogBlazorSinkTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public SerilogBlazorSinkTests(Host host) : base(host)
     {
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
