@@ -7,10 +7,28 @@
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
 
+<<<<<<< HEAD
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.7" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.6" PrivateAssets="all" />
     </ItemGroup>
+=======
+  <PropertyGroup>
+      <TargetFramework>net10.0</TargetFramework>
+      <Nullable>enable</Nullable>
+      <Platforms>AnyCPU</Platforms>
+      <NoWarn>$(NoWarn);1591</NoWarn>
+  <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild></PropertyGroup>
+
+  <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.7" />
+      <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.7" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Soenneker.Serilog.Sinks.Browser.Blazor\Soenneker.Serilog.Sinks.Browser.Blazor.csproj" />
+  </ItemGroup>
+>>>>>>> 689fe3e9fcf09e3784cb3a71ca322af54453ca80
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Soenneker.Serilog.Sinks.Browser.Blazor\Soenneker.Serilog.Sinks.Browser.Blazor.csproj" />
