@@ -31,14 +31,14 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
-      - name: Restore tests
-        run: dotnet restore test/Soenneker.Serilog.Sinks.Browser.Blazor.Demo/Soenneker.Serilog.Sinks.Browser.Blazor.Demo.csproj --verbosity minimal
+      - name: Restore
+        run: dotnet restore Soenneker.Serilog.Sinks.Browser.Blazor.slnx --verbosity minimal
 
-      - name: Build tests
-        run: dotnet build test/Soenneker.Serilog.Sinks.Browser.Blazor.Demo/Soenneker.Serilog.Sinks.Browser.Blazor.Demo.csproj --configuration Release --no-restore --verbosity minimal
+      - name: Build
+        run: dotnet build Soenneker.Serilog.Sinks.Browser.Blazor.slnx --configuration Release --no-restore --verbosity minimal
 
       - name: Test
-        run: dotnet test --project test/Soenneker.Serilog.Sinks.Browser.Blazor.Demo/Soenneker.Serilog.Sinks.Browser.Blazor.Demo.csproj --configuration Release --no-build --no-restore --verbosity minimal
+        run: dotnet test --project test/Soenneker.Serilog.Sinks.Browser.Blazor.Tests/Soenneker.Serilog.Sinks.Browser.Blazor.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
 
       - name: Pack
         run: dotnet pack src/Soenneker.Serilog.Sinks.Browser.Blazor/Soenneker.Serilog.Sinks.Browser.Blazor.csproj --configuration Release --no-build --no-restore --output . --verbosity minimal
