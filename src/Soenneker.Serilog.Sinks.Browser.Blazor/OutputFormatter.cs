@@ -10,6 +10,9 @@ namespace Soenneker.Serilog.Sinks.Browser.Blazor;
 
 internal sealed class OutputFormatter
 {
+    [ThreadStatic]
+    private static List<object?>? _threadOutput;
+
     private readonly List<BaseRenderer> _renderers;
 
     internal OutputFormatter(string outputTemplate, IFormatProvider? formatProvider)
@@ -49,13 +52,18 @@ internal sealed class OutputFormatter
 
     internal object?[] Format(LogEvent logEvent)
     {
-        var output = new List<object?>(_renderers.Count * 2);
+        List<object?> output = _threadOutput ??= new List<object?>(_renderers.Count * 2);
 
-        foreach (BaseRenderer renderer in _renderers)
+        try
         {
-            renderer.Render(logEvent, output.Add);
-        }
+            foreach (BaseRenderer renderer in _renderers)
+                renderer.Render(logEvent, output.Add);
 
-        return output.ToArray();
+            return output.ToArray();
+        }
+        finally
+        {
+            output.Clear();
+        }
     }
 }

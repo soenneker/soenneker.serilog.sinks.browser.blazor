@@ -32,7 +32,18 @@ internal sealed class BlazorConsoleSink : ILogEventSink
         FireAndForget(_jSRuntime.InvokeAsync<string>(outputStream, args));
     }
 
-    private static async void FireAndForget(ValueTask<string> valueTask)
+    private static void FireAndForget(ValueTask<string> valueTask)
+    {
+        if (valueTask.IsCompletedSuccessfully)
+        {
+            _ = valueTask.Result;
+            return;
+        }
+
+        _ = ObserveCompletion(valueTask);
+    }
+
+    private static async Task ObserveCompletion(ValueTask<string> valueTask)
     {
         try
         {
