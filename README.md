@@ -1,127 +1,97 @@
 [![](https://img.shields.io/nuget/v/soenneker.serilog.sinks.browser.blazor.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.serilog.sinks.browser.blazor/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.serilog.sinks.browser.blazor/publish-package.yml?style=for-the-badge)](https://github.com/soenneker/soenneker.serilog.sinks.browser.blazor/actions/workflows/publish-package.yml)
-[![](https://img.shields.io/nuget/dt/soenneker.serilog.sinks.browser.blazor.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.serilog.sinks.browser.blazor/)
+[![](https://img.shields.io/nuget/dt/soenneker.serilog.sinks.browser.blazor.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker/soenneker.serilog.sinks.browser.blazor/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.serilog.sinks.browser.blazor/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.serilog.sinks.browser.blazor/actions/workflows/codeql.yml)
 
-# ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Serilog.Sinks.Browser.Blazor
-### A Serilog sink for logging within the Blazor client-side environment
+# Soenneker.Serilog.Sinks.Browser.Blazor
 
-![image](https://github.com/user-attachments/assets/f9fa6f2d-cf9e-45f5-9f3a-966d3e9c5e6a)
+A Serilog sink that writes structured log events to the browser developer console through Blazor's `IJSRuntime`.
 
-An example demo app has been added to the solution.
+![Browser console output](https://github.com/user-attachments/assets/f9fa6f2d-cf9e-45f5-9f3a-966d3e9c5e6a)
 
-## ?? Installation
+## Installation
 
-1. **Install Required NuGet Packages**
-
-```sh
+```bash
 dotnet add package Soenneker.Serilog.Sinks.Browser.Blazor
 ```
 
-2. **Configure Logging in `Program.cs`**
+## Configure a Blazor WebAssembly app
 
-An example:
+`IJSRuntime` is available after the host is built. Resolve it, create the Serilog logger, and then connect Serilog to Microsoft logging:
 
 ```csharp
-using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using Serilog;
-using Serilog.Debugging;
 using Serilog.Events;
 using Soenneker.Serilog.Sinks.Browser.Blazor.Registrars;
 
-public class Program
+WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+builder.Services.AddLogging(logging =>
 {
-    public static async Task Main(string[] args)
-    {
-        try
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+    logging.ClearProviders();
+    logging.AddSerilog(dispose: false);
+});
 
-            ConfigureLogging(builder.Services);
+WebAssemblyHost host = builder.Build();
+IJSRuntime jsRuntime = host.Services.GetRequiredService<IJSRuntime>();
 
-            builder.RootComponents.Add<App>("#app");
-            builder.RootComponents.Add<HeadOutlet>("head::after");
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.BlazorConsole(
+        jsRuntime,
+        restrictedToMinimumLevel: LogEventLevel.Information)
+    .CreateLogger();
 
-            WebAssemblyHost host = builder.Build();
-
-            AddBlazorConsoleLogger(host);
-
-            await host.RunAsync();
-        }
-        catch (Exception e)
-        {
-            Log.Error(e, "Stopped program because of exception");
-            throw;
-        }
-        finally
-        {
-            await Log.CloseAndFlushAsync();
-        }
-    }
-
-    private static IServiceCollection ConfigureLogging(IServiceCollection services)
-    {
-        SelfLog.Enable(m => Console.Error.WriteLine(m));
-
-        services.AddLogging(builder =>
-        {
-            builder.ClearProviders();
-            builder.AddSerilog(dispose: false);
-        });
-
-        return services;
-    }
-
-    private static WebAssemblyHost AddBlazorConsoleLogger(WebAssemblyHost host)
-    {
-        var jsRuntime = host.Services.GetRequiredService<IJSRuntime>();
-
-        var loggerConfig = new LoggerConfiguration();
-
-        loggerConfig.WriteTo.BlazorConsole(jsRuntime: jsRuntime);
-
-        Log.Logger = loggerConfig.CreateLogger();
-
-        return host;
-    }
+try
+{
+    await host.RunAsync();
+}
+finally
+{
+    await Log.CloseAndFlushAsync();
 }
 ```
 
-**How It Works**
-   - **`ConfigureLogging(IServiceCollection services)`**  
-     - Enables Serilog's self-logging to capture any internal errors.
-     - Registers Serilog as the primary logging provider.
-   - **`SetGlobalLogger(WebAssemblyHost host)`**  
-     - Initializes the **BlazorConsole sink** to log messages directly in the browser's developer console.
+With `dispose: false`, the global Serilog logger owns its sink and `CloseAndFlushAsync` performs teardown.
 
----
+## Log from a component
 
-## ?? Usage
-
-Once you have installed and configured Serilog with the **BlazorConsole sink**, you can start logging messages in your Blazor components.
-
-### Injecting the Logger
-
-In your **Blazor component (`.razor` file)**, inject the `ILogger<T>` service:
+Microsoft `ILogger<T>` messages flow through the configured Serilog provider:
 
 ```razor
-@page "/"
-@using Microsoft.Extensions.Logging
-
 @inject ILogger<Index> Logger
 
-<button @onclick="Click">Click</button>
+<button @onclick="LogClick">Log</button>
 
 @code {
-    public void Click()
+    private void LogClick()
     {
-        Logger.LogInformation("Testing information log");
+        Logger.LogInformation("Clicked at {Timestamp}", DateTimeOffset.UtcNow);
     }
 }
 ```
+
+Serilog levels map to the corresponding browser methods: fatal and error use `console.error`, warning uses `console.warn`, information uses `console.info`, debug uses `console.debug`, and verbose uses `console.trace`.
+
+## Formatting and failures
+
+Customize the output template and culture when configuring the sink:
+
+```csharp
+.WriteTo.BlazorConsole(
+    jsRuntime,
+    outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {Message}{NewLine}{Exception}",
+    formatProvider: CultureInfo.InvariantCulture)
+```
+
+The default template adds a styled `serilog` label followed by the message, newline, and exception. Structured values are passed to the browser console as arguments rather than flattened into one string.
+
+Writes are asynchronous and fire-and-forget because Serilog's sink contract is synchronous. JS interop failures are reported through `Serilog.Debugging.SelfLog`; enable it while diagnosing logging setup:
+
+```csharp
+SelfLog.Enable(message => Console.Error.WriteLine(message));
+```
+
+Everything sent to this sink is visible to the browser user. Do not log access tokens, credentials, personal data, or server-only details.

@@ -29,21 +29,18 @@ internal sealed class BlazorConsoleSink : ILogEventSink
 
         object?[] args = _formatter.Format(logEvent);
 
-        FireAndForget(_jSRuntime.InvokeAsync<string>(outputStream, args));
+        FireAndForget(_jSRuntime.InvokeVoidAsync(outputStream, args));
     }
 
-    private static void FireAndForget(ValueTask<string> valueTask)
+    private static void FireAndForget(ValueTask valueTask)
     {
         if (valueTask.IsCompletedSuccessfully)
-        {
-            _ = valueTask.Result;
             return;
-        }
 
         _ = ObserveCompletion(valueTask);
     }
 
-    private static async Task ObserveCompletion(ValueTask<string> valueTask)
+    private static async Task ObserveCompletion(ValueTask valueTask)
     {
         try
         {
