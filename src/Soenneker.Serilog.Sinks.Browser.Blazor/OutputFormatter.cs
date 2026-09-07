@@ -13,6 +13,9 @@ internal sealed class OutputFormatter
     [ThreadStatic]
     private static List<object?>? _threadOutput;
 
+    [ThreadStatic]
+    private static BaseRenderer.TokenEmitter? _threadEmitter;
+
     private readonly List<BaseRenderer> _renderers;
 
     internal OutputFormatter(string outputTemplate, IFormatProvider? formatProvider)
@@ -53,11 +56,12 @@ internal sealed class OutputFormatter
     internal object?[] Format(LogEvent logEvent)
     {
         List<object?> output = _threadOutput ??= new List<object?>(_renderers.Count * 2);
+        BaseRenderer.TokenEmitter emitToken = _threadEmitter ??= output.Add;
 
         try
         {
             foreach (BaseRenderer renderer in _renderers)
-                renderer.Render(logEvent, output.Add);
+                renderer.Render(logEvent, emitToken);
 
             return output.ToArray();
         }

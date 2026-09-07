@@ -24,7 +24,7 @@ internal sealed class PropertiesRenderer : BaseRenderer
         // Precompute property names from the message template
         HashSet<string> messageTemplateProperties = GetTemplatePropertyNames(logEvent.MessageTemplate);
 
-        List<LogEventProperty> includedProperties = [];
+        List<LogEventPropertyValue> includedProperties = [];
 
         foreach (KeyValuePair<string, LogEventPropertyValue> property in logEvent.Properties)
         {
@@ -32,13 +32,13 @@ internal sealed class PropertiesRenderer : BaseRenderer
             if (messageTemplateProperties.Contains(property.Key) || _templatePropertyNames.Contains(property.Key))
                 continue;
 
-            includedProperties.Add(new LogEventProperty(property.Key, property.Value));
+            includedProperties.Add(property.Value);
         }
 
         // Emit properties
-        foreach (LogEventProperty property in includedProperties)
+        foreach (LogEventPropertyValue property in includedProperties)
         {
-            emitToken(property.Value.ToInteropValue(_token.Format));
+            emitToken(property.ToInteropValue(_token.Format));
         }
     }
 
