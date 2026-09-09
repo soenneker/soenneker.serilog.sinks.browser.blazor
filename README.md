@@ -9,6 +9,10 @@ A Serilog sink that writes structured log events to the browser developer consol
 
 ![Browser console output](https://github.com/user-attachments/assets/f9fa6f2d-cf9e-45f5-9f3a-966d3e9c5e6a)
 
+## Demo
+
+Try the [browser demo](https://soenneker.github.io/soenneker.serilog.sinks.browser.blazor/). Open your browser's developer console and click **Click** to see a log event.
+
 ## Installation
 
 ```bash
