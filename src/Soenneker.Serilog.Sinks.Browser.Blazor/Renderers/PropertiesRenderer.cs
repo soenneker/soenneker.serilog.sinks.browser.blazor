@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using Serilog.Events;
 using Serilog.Parsing;
@@ -8,6 +9,7 @@ namespace Soenneker.Serilog.Sinks.Browser.Blazor.Renderers;
 
 internal sealed class PropertiesRenderer : BaseRenderer
 {
+    private static readonly ConditionalWeakTable<MessageTemplate, HashSet<string>> _messageProperties = new();
     private readonly PropertyToken _token;
     private readonly HashSet<string> _templatePropertyNames;
 
@@ -22,9 +24,9 @@ internal sealed class PropertiesRenderer : BaseRenderer
     internal override void Render(LogEvent logEvent, TokenEmitter emitToken)
     {
         // Precompute property names from the message template
-        HashSet<string> messageTemplateProperties = GetTemplatePropertyNames(logEvent.MessageTemplate);
-
-        List<LogEventPropertyValue> includedProperties = [];
+        if (logEvent.Properties.Count == 0)
+            return;
+        HashSet<string> messageTemplateProperties = _messageProperties.GetValue(logEvent.MessageTemplate, GetTemplatePropertyNames);
 
         foreach (KeyValuePair<string, LogEventPropertyValue> property in logEvent.Properties)
         {
@@ -32,14 +34,9 @@ internal sealed class PropertiesRenderer : BaseRenderer
             if (messageTemplateProperties.Contains(property.Key) || _templatePropertyNames.Contains(property.Key))
                 continue;
 
-            includedProperties.Add(property.Value);
+            emitToken(property.Value.ToInteropValue(_token.Format));
         }
 
-        // Emit properties
-        foreach (LogEventPropertyValue property in includedProperties)
-        {
-            emitToken(property.ToInteropValue(_token.Format));
-        }
     }
 
     private static HashSet<string> GetTemplatePropertyNames(MessageTemplate template)

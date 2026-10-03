@@ -1,4 +1,4 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 using Serilog.Core;
 using Serilog.Debugging;
 using Serilog.Events;
@@ -35,7 +35,10 @@ internal sealed class BlazorConsoleSink : ILogEventSink
     private static void FireAndForget(ValueTask valueTask)
     {
         if (valueTask.IsCompletedSuccessfully)
+        {
+            valueTask.GetAwaiter().GetResult();
             return;
+        }
 
         _ = ObserveCompletion(valueTask);
     }

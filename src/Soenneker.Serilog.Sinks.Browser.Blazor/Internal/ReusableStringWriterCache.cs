@@ -12,13 +12,13 @@ internal static class ReusableStringWriterCache
 	{
 		ReusableStringWriter? writer = _writer;
 
-		if (writer is null)
-		{
-			writer = new ReusableStringWriter();
-			_writer = writer;
-		}
+		_writer = null;
+		return writer ?? new ReusableStringWriter();
+	}
 
+	internal static void Return(ReusableStringWriter writer)
+	{
 		writer.Reset();
-		return writer;
+		_writer = writer;
 	}
 }

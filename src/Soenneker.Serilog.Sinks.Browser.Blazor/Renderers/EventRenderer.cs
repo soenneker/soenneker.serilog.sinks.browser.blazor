@@ -40,8 +40,15 @@ internal sealed class EventRenderer : BaseRenderer
         else
         {
             ReusableStringWriter writer = ReusableStringWriterCache.Get();
-            propertyValue.Render(writer, _token.Format, _formatProvider);
-            result = writer.Finish();
+            try
+            {
+                propertyValue.Render(writer, _token.Format, _formatProvider);
+                result = writer.Finish();
+            }
+            finally
+            {
+                ReusableStringWriterCache.Return(writer);
+            }
         }
 
         // Apply alignment efficiently

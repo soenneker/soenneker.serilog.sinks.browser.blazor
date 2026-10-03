@@ -18,8 +18,15 @@ internal static class LogEventPropertyValueExtension
 
 			case ScalarValue sv:
 				ReusableStringWriter sw = ReusableStringWriterCache.Get();
-				sv.Render(sw, format);
-				return sw.Finish();
+				try
+				{
+					sv.Render(sw, format);
+					return sw.Finish();
+				}
+				finally
+				{
+					ReusableStringWriterCache.Return(sw);
+				}
 
 			case SequenceValue sqv:
 				var array = new object?[sqv.Elements.Count];

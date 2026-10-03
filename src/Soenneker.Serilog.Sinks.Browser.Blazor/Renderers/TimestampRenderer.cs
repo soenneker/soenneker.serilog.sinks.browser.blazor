@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Globalization;
 using Serilog.Events;
 using Serilog.Parsing;
 using Soenneker.Serilog.Sinks.Browser.Blazor.Extensions;
@@ -22,10 +22,24 @@ internal sealed class TimestampRenderer : BaseRenderer
 
     internal override void Render(LogEvent logEvent, TokenEmitter emitToken)
     {
+        if (_formatProvider is null)
+        {
+            emitToken(logEvent.Timestamp.ToString(_token.Format, CultureInfo.InvariantCulture).Pad(_token.Alignment));
+            return;
+        }
+
         var scalarValue = new ScalarValue(logEvent.Timestamp);
         ReusableStringWriter writer = ReusableStringWriterCache.Get();
-        scalarValue.Render(writer, _token.Format, _formatProvider);
-        string result = writer.Finish();
+        string result;
+        try
+        {
+            scalarValue.Render(writer, _token.Format, _formatProvider);
+            result = writer.Finish();
+        }
+        finally
+        {
+            ReusableStringWriterCache.Return(writer);
+        }
 
         if (_token.Alignment is not null)
             emitToken(result.Pad(_token.Alignment));

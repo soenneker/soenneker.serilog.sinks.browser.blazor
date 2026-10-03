@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Serilog.Events;
 using Serilog.Formatting.Display;
@@ -15,6 +15,9 @@ internal sealed class OutputFormatter
 
     [ThreadStatic]
     private static BaseRenderer.TokenEmitter? _threadEmitter;
+
+    [ThreadStatic]
+    private static bool _formatting;
 
     private readonly List<BaseRenderer> _renderers;
 
@@ -55,8 +58,10 @@ internal sealed class OutputFormatter
 
     internal object?[] Format(LogEvent logEvent)
     {
-        List<object?> output = _threadOutput ??= new List<object?>(_renderers.Count * 2);
-        BaseRenderer.TokenEmitter emitToken = _threadEmitter ??= output.Add;
+        bool nested = _formatting;
+        List<object?> output = nested ? new List<object?>(_renderers.Count * 2) : _threadOutput ??= new List<object?>(_renderers.Count * 2);
+        BaseRenderer.TokenEmitter emitToken = nested ? output.Add : _threadEmitter ??= output.Add;
+        _formatting = true;
 
         try
         {
@@ -68,6 +73,7 @@ internal sealed class OutputFormatter
         finally
         {
             output.Clear();
+            _formatting = nested;
         }
     }
 }

@@ -8,18 +8,15 @@ namespace Soenneker.Serilog.Sinks.Browser.Blazor.Renderers;
 
 internal sealed class NewLineRenderer : BaseRenderer
 {
-    private readonly Alignment? _alignment;
+    private readonly string _text;
 
     internal NewLineRenderer(Alignment? alignment)
     {
-        _alignment = alignment;
+        _text = alignment is null ? Environment.NewLine : Environment.NewLine.Pad(alignment.Value.Widen(Environment.NewLine.Length));
     }
 
     internal override void Render(LogEvent logEvent, TokenEmitter emitToken)
     {
-        if (_alignment is not null)
-            emitToken(Environment.NewLine.Pad(_alignment.Value.Widen(Environment.NewLine.Length)));
-        else
-            emitToken(Environment.NewLine);
+        emitToken(_text);
     }
 }
