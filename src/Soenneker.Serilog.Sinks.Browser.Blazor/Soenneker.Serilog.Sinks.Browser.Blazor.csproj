@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net11.0</TargetFramework>
         <IsAotCompatible>true</IsAotCompatible>
         <Nullable>enable</Nullable>
         <Platforms>AnyCPU</Platforms>
@@ -9,7 +9,7 @@
 
     <PropertyGroup>
         <Description>A Serilog sink for logging within the Blazor client-side environment</Description>
-        <Version Condition="'$(BUILD_VERSION)' == ''">4.0.0</Version>
+        <Version Condition="'$(BUILD_VERSION)' == ''">11.0.0</Version>
         <Version Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</Version>
         <AssemblyName>Soenneker.Serilog.Sinks.Browser.Blazor</AssemblyName>
         <PackageId>Soenneker.Serilog.Sinks.Browser.Blazor</PackageId>
@@ -45,9 +45,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.JSInterop" Version="10.0.14" />
+        <PackageReference Include="Microsoft.JSInterop" Version="11.0.0-rc.3.26522.148" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
-        <PackageReference Include="Soenneker.Extensions.String" Version="4.0.799" />
+        <PackageReference Include="Soenneker.Extensions.String" Version="4.0.800" />
         <PackageReference Include="Soenneker.Extensions.ValueTask" Version="4.0.133" />
         <PackageReference Include="Soenneker.Utils.ReusableStringWriter" Version="4.0.38" />
     </ItemGroup>
