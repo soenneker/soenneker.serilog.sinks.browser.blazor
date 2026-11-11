@@ -48,7 +48,7 @@
         <PackageReference Include="Microsoft.JSInterop" Version="11.0.0" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
         <PackageReference Include="Soenneker.Extensions.String" Version="11.0.813" />
-        <PackageReference Include="Soenneker.Extensions.ValueTask" Version="11.0.135" />
+        <PackageReference Include="Soenneker.Extensions.ValueTask" Version="11.0.136" />
         <PackageReference Include="Soenneker.Utils.ReusableStringWriter" Version="11.0.40" />
     </ItemGroup>
 </Project>
